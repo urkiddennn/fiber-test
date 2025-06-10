@@ -31,7 +31,7 @@ const Login = () => {
                 <p>
                   Don't have an account?{" "}
                   <a href="" className="link link-hover">
-                    <Link to="/">Signup</Link>
+                    <Link to="/signup">Signup</Link>
                   </a>
                 </p>
               </fieldset>
