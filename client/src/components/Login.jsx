@@ -1,5 +1,6 @@
+import { Link, Links, Navigate } from "react-router-dom";
+
 const Login = () => {
-  const Signup = () => {};
   return (
     <>
       <div className="hero bg-base-200 min-h-screen">
@@ -30,7 +31,7 @@ const Login = () => {
                 <p>
                   Don't have an account?{" "}
                   <a href="" className="link link-hover">
-                    Signup
+                    <Link to="/">Signup</Link>
                   </a>
                 </p>
               </fieldset>

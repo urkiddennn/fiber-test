@@ -1,10 +1,12 @@
 import Login from "./components/Login";
-
+import { Route, Routes } from "react-router-dom";
 function App() {
   return (
-    <div className="flex justify-center items-center">
-      <Login />
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<Login />} />
+      </Routes>
+    </>
   );
 }
 
