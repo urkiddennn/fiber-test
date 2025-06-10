@@ -1,6 +1,41 @@
-import { Link, Links, Navigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Signup = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    username: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!formData.email || !formData.username || !formData.password) {
+      setError("All fields are required");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/register",
+        formData,
+      );
+      alert(response.data.message);
+      navigate("/"); // Redirect to login on success
+    } catch (err) {
+      setError(err.response?.data?.error || "Registration failed");
+    }
+  };
+
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -14,27 +49,47 @@ const Signup = () => {
         </div>
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
           <div className="card-body">
-            <fieldset className="fieldset">
-              <label className="label">Email</label>
-              <input type="email" className="input" placeholder="Email" />
-              <label className="label">Username</label>
-              <input
-                type="text"
-                className="input"
-                name=""
-                value=""
-                placeholder="Username"
-              />
-              <label className="label">Password</label>
-              <input type="password" className="input" placeholder="Password" />
-              <button className="btn btn-neutral mt-4">Signup</button>
-              <p>
-                Already have an account?{" "}
-                <a href="" className="link link-hover">
-                  <Link to="/">Login</Link>
-                </a>
-              </p>
-            </fieldset>
+            <form onSubmit={handleSubmit}>
+              <fieldset className="fieldset">
+                {error && <p className="text-red-500 text-center">{error}</p>}
+                <label className="label">Email</label>
+                <input
+                  type="email"
+                  className="input input-bordered"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Email"
+                />
+                <label className="label">Username</label>
+                <input
+                  type="text"
+                  className="input input-bordered"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  placeholder="Username"
+                />
+                <label className="label">Password</label>
+                <input
+                  type="password"
+                  className="input input-bordered"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Password"
+                />
+                <button type="submit" className="btn btn-neutral mt-4">
+                  Signup
+                </button>
+                <p>
+                  Already have an account?{" "}
+                  <Link to="/" className="link link-hover">
+                    Login
+                  </Link>
+                </p>
+              </fieldset>
+            </form>
           </div>
         </div>
       </div>
