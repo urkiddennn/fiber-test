@@ -9,6 +9,8 @@ const Signup = () => {
     password: "",
   });
   const [error, setError] = useState("");
+
+  // Initialize the validation state
   const [validation, setValidation] = useState({
     length: false,
     uppercase: false,
@@ -16,9 +18,11 @@ const Signup = () => {
     number: false,
     special: false,
   });
+
   const navigate = useNavigate();
   const minLength = 8;
 
+  // Validation function for validating the password
   const validatePassword = (value) => {
     const checks = {
       length: value.length >= minLength,
@@ -28,6 +32,7 @@ const Signup = () => {
       special: /[!@#$%^&*(),.?":{}|<>]/.test(value),
     };
     setValidation(checks);
+    // Pass the validated password to the form data state
     setFormData({ ...formData, password: value });
   };
 
