@@ -82,62 +82,107 @@ const Signup = () => {
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
           <div className="card-body">
             <form onSubmit={handleSubmit}>
-              <fieldset className="fieldset">
-                {error && <p className="text-red-500 text-center">{error}</p>}
-                <label className="label">Email</label>
-                <input
-                  type="email"
-                  className="input input-bordered"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Email"
-                />
-                <label className="label">Username</label>
-                <input
-                  type="text"
-                  className="input input-bordered"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  placeholder="Username"
-                />
-                <label className="label">Password</label>
-                <input
-                  type="password"
-                  className="input input-bordered"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Password"
-                />
-                <ul className="validation-list mt-2">
-                  <li className={validation.length ? "valid" : "invalid"}>
-                    At least {minLength} characters
-                  </li>
-                  <li className={validation.uppercase ? "valid" : "invalid"}>
-                    At least one uppercase letter
-                  </li>
-                  <li className={validation.lowercase ? "valid" : "invalid"}>
-                    At least one lowercase letter
-                  </li>
-                  <li className={validation.number ? "valid" : "invalid"}>
-                    At least one number
-                  </li>
-                  <li className={validation.special ? "valid" : "invalid"}>
-                    At least one special character
-                  </li>
-                </ul>
-                <button
-                  type="submit"
-                  className="btn btn-neutral mt-4"
-                  disabled={!isValid}
-                >
-                  Signup
-                </button>
-                <p className="mt-2">
+              <fieldset>
+                {error && (
+                  <div className="alert alert-error mb-4">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="stroke-current shrink-0 h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <span>{error}</span>
+                  </div>
+                )}
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Email</span>
+                  </label>
+                  <input
+                    type="email"
+                    className="input input-bordered"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Email"
+                  />
+                </div>
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Username</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="input input-bordered"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    placeholder="Username"
+                  />
+                </div>
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Password</span>
+                  </label>
+                  <input
+                    type="password"
+                    className="input input-bordered"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="Password"
+                  />
+                  <ul className="mt-2 text-sm">
+                    <li
+                      className={`flex items-center gap-2 ${validation.length ? "text-success" : "text-error"}`}
+                    >
+                      {validation.length ? "✔" : "✘"} At least {minLength}{" "}
+                      characters
+                    </li>
+                    <li
+                      className={`flex items-center gap-2 ${validation.uppercase ? "text-success" : "text-error"}`}
+                    >
+                      {validation.uppercase ? "✔" : "✘"} At least one uppercase
+                      letter
+                    </li>
+                    <li
+                      className={`flex items-center gap-2 ${validation.lowercase ? "text-success" : "text-error"}`}
+                    >
+                      {validation.lowercase ? "✔" : "✘"} At least one lowercase
+                      letter
+                    </li>
+                    <li
+                      className={`flex items-center gap-2 ${validation.number ? "text-success" : "text-error"}`}
+                    >
+                      {validation.number ? "✔" : "✘"} At least one number
+                    </li>
+                    <li
+                      className={`flex items-center gap-2 ${validation.special ? "text-success" : "text-error"}`}
+                    >
+                      {validation.special ? "✔" : "✘"} At least one special
+                      character
+                    </li>
+                  </ul>
+                </div>
+                <div className="form-control mt-6">
+                  <button
+                    type="submit"
+                    className="btn btn-neutral"
+                    disabled={!isValid}
+                  >
+                    Signup
+                  </button>
+                </div>
+                <p className="mt-4 text-center">
                   Already have an account?{" "}
-                  <Link to="/" className="link link-hover">
+                  <Link to="/" className="link link-primary">
                     Login
                   </Link>
                 </p>
