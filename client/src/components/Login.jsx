@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { FaGithub } from "react-icons/fa";
+import { AiFillGoogleCircle } from "react-icons/ai";
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -84,7 +85,7 @@ const Login = () => {
                 <label className="label">Email</label>
                 <input
                   type="email"
-                  className="input input-bordered"
+                  className="input input-bordered validator"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
@@ -93,8 +94,9 @@ const Login = () => {
                 <label className="label">Password</label>
                 <input
                   type="password"
-                  className="input input-bordered"
+                  className="input input-bordered validator"
                   name="password"
+                  required
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Password"
@@ -110,8 +112,9 @@ const Login = () => {
                 )}
                 <input
                   type="text"
-                  className="input input-bordered"
+                  className="input input-bordered validator"
                   name="captcha_code"
+                  required
                   value={formData.captcha_code}
                   onChange={handleChange}
                   placeholder="Enter CAPTCHA code"
@@ -134,6 +137,15 @@ const Login = () => {
                     Signup
                   </Link>
                 </p>
+                <div className="flex flex-col justify-center items-center gap-1">
+                  <p>Or login with</p>
+                  <div className="flex gap-3">
+                    <button type="" className="pointer">
+                      <FaGithub size={40} />
+                    </button>
+                    <AiFillGoogleCircle size={43} />
+                  </div>
+                </div>
               </fieldset>
             </form>
           </div>
