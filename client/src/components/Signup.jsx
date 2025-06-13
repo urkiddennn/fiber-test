@@ -9,10 +9,37 @@ const Signup = () => {
     password: "",
   });
   const [error, setError] = useState("");
+  const [validation, setValidation] = useState({
+    length: false,
+    uppercase: false,
+    lowercase: false,
+    number: false,
+    special: false,
+  });
   const navigate = useNavigate();
+  const minLength = 8;
+
+  const validatePassword = (value) => {
+    const checks = {
+      length: value.length >= minLength,
+      uppercase: /[A-Z]/.test(value),
+      lowercase: /[a-z]/.test(value),
+      number: /\d/.test(value),
+      special: /[!@#$%^&*(),.?":{}|<>]/.test(value),
+    };
+    setValidation(checks);
+    setFormData({ ...formData, password: value });
+  };
+
+  const isValid = Object.values(validation).every((check) => check);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === "password") {
+      validatePassword(value);
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -21,6 +48,11 @@ const Signup = () => {
 
     if (!formData.email || !formData.username || !formData.password) {
       setError("All fields are required");
+      return;
+    }
+
+    if (!isValid) {
+      setError("Password does not meet requirements");
       return;
     }
 
@@ -79,10 +111,31 @@ const Signup = () => {
                   onChange={handleChange}
                   placeholder="Password"
                 />
-                <button type="submit" className="btn btn-neutral mt-4">
+                <ul className="validation-list mt-2">
+                  <li className={validation.length ? "valid" : "invalid"}>
+                    At least {minLength} characters
+                  </li>
+                  <li className={validation.uppercase ? "valid" : "invalid"}>
+                    At least one uppercase letter
+                  </li>
+                  <li className={validation.lowercase ? "valid" : "invalid"}>
+                    At least one lowercase letter
+                  </li>
+                  <li className={validation.number ? "valid" : "invalid"}>
+                    At least one number
+                  </li>
+                  <li className={validation.special ? "valid" : "invalid"}>
+                    At least one special character
+                  </li>
+                </ul>
+                <button
+                  type="submit"
+                  className="btn btn-neutral mt-4"
+                  disabled={!isValid}
+                >
                   Signup
                 </button>
-                <p>
+                <p className="mt-2">
                   Already have an account?{" "}
                   <Link to="/" className="link link-hover">
                     Login
