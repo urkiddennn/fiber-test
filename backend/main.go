@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"space/index/fiber/backend/api/handlers"
+	"space/index/backend/api/handlers"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -63,6 +65,14 @@ func main() {
 		AllowOrigins: "*",
 		AllowHeaders: "Origin, Content-Type, Accept",
 	}))
+
+	// setup rate limiter middleware
+	app.Use(limiter.New(limiter.Config{
+		Max:        100,
+		Expiration: 60 * time.Second,
+	}))
+	fmt.Println("ok!")
+
 	// Setup routes
 
 	handlers.SetupUserRoutes(app, collection)
