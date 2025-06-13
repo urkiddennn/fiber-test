@@ -10,6 +10,8 @@ const Signup = () => {
   });
   const [error, setError] = useState("");
 
+  // Initialize Loading spinner
+  const [isLoading, setIsLaoding] = useState(false);
   // Initialize the validation state
   const [validation, setValidation] = useState({
     length: false,
@@ -50,14 +52,17 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setIsLaoding(true);
 
     if (!formData.email || !formData.username || !formData.password) {
       setError("All fields are required");
+      setIsLaoding(false);
       return;
     }
 
     if (!isValid) {
       setError("Password does not meet requirements");
+      setIsLaoding(false);
       return;
     }
 
@@ -66,7 +71,7 @@ const Signup = () => {
         "http://localhost:3000/register",
         formData,
       );
-      alert(response.data.message);
+
       navigate("/"); // Redirect to login on success
     } catch (err) {
       setError(err.response?.data?.error || "Registration failed");
@@ -182,6 +187,14 @@ const Signup = () => {
                     className="btn btn-neutral"
                     disabled={!isValid}
                   >
+                    {isLoading ? (
+                      <span className="flex items-center gap-2">
+                        <span className="loading loading-spinner"></span>
+                        Signing up.....
+                      </span>
+                    ) : (
+                      "Signup"
+                    )}
                     Signup
                   </button>
                 </div>
