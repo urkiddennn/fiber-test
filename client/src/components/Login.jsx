@@ -14,11 +14,14 @@ const Login = () => {
   const [captcha, setCaptcha] = useState({ id: "", image: "" });
   const navigate = useNavigate();
 
+  const REST_API_URI = process.env.REACT_APP_URI;
+  const JWT_TOKEN = process.env.JWT_TOKEN_KEY;
+
   // Fetch CAPTCHA on component mount
   useEffect(() => {
     const fetchCaptcha = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/captcha");
+        const response = await axios.get(`${REST_API_URI}/captcha`);
         setCaptcha({
           id: response.data.captcha_id,
           image: response.data.captcha,
@@ -46,17 +49,17 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/login", {
+      const response = await axios.post(`${REST_API_URI}/login`, {
         ...formData,
         captcha_id: captcha.id,
       });
-      localStorage.setItem("your_jwt_secret", response.data.token); // Store JWT
-      alert(response.data.message);
+      localStorage.setItem(`${JWT_TOKEN}`, response.data.token); // Store JWT
+
       navigate("/dashboard");
     } catch (error) {
       setError(error.response?.data?.error || "Login failed");
       // Refresh CAPTCHA on failure
-      const captchaResponse = await axios.get("http://localhost:3000/captcha");
+      const captchaResponse = await axios.get(`${REST_API_URI}/captcha`);
       setCaptcha({
         id: captchaResponse.data.captcha_id,
         image: captchaResponse.data.captcha,
